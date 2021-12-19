@@ -1,14 +1,39 @@
 import React, { useState, useEffect } from "react";
 import "./component.css";
+import SearchInput from './SearchInput';
+import Button from "./Button";
 
-const Card = ({ user }) => {
+const Card = ({ user, allGrades, eachKey }) => {
   const [expanded, setExpanded] = useState(false);
   const [avg, setAvg] = useState(0);
-  const [grades, setGrades] = useState([])
+  const [getLength, setGetLength] = useState('');
+  const [button, setButton] = useState([]);
 
   const expandHandler = () => {
     setExpanded(!expanded);
   };
+
+  const inputChangeHandler = (e) => {
+    setGetLength(e.target.value)
+  }
+
+  const handleKeypress = (e) => {
+    if (e.key === 'Enter' && getLength.length > 2) {
+      setButton((prevState) => {
+        return [...prevState, getLength]
+      } )
+      setGetLength('')
+    }
+  };
+  
+  const filterAllGrades = () => {
+    return allGrades.map((grade, index) => {
+      return (
+          <li className="eachTest">Test {index + 1}:<span className="eachGrade">{grade}%</span></li>
+      )
+    })
+  }
+
   useEffect(() => {
     const averagesHandler = (userGrades) => {
       setAvg(userGrades.reduce((a, b) => Number(a) + Number(b), 0) / user.grades.length);
@@ -20,7 +45,7 @@ const Card = ({ user }) => {
   return (
     <div className="card-container">
       <div className="card-picContainer">
-        <img className="card-picture" src={user.pic} />
+        <img className="card-picture" src={user.pic} alt="user-profile"/>
       </div>
       <div className="card-inContainer">
         <h1>
@@ -30,6 +55,11 @@ const Card = ({ user }) => {
         <h4>Company: {user.company}</h4>
         <h4>Skills: {user.skill}</h4>
         <h4>Average: {avg} </h4>
+        <ul className="allGrades">{expanded ? filterAllGrades() : null}</ul>
+        <div className="tags-container">
+        {button ? button.map((btn, index) => <Button key={eachKey + index.toString()} setValue={btn} />) : null}
+        </div>
+        <SearchInput  value={getLength} inputChangeHandler={inputChangeHandler} searchClass={"tag-input"} pl={"add a tag"} handleKeypress={handleKeypress}/>
       </div>
       <div className="plus-container">
         {expanded ? (
