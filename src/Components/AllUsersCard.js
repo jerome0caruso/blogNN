@@ -1,6 +1,6 @@
 import Card from "./Card";
 import "./component.css";
-const AllUsersCard = ({ users }) => {
+const AllUsersCard = ({ users, getTag, setUserId }) => {
  
 const geterateKey = () => {
   return String(Math.random() * 100)
@@ -11,7 +11,7 @@ const geterateKey = () => {
     const uKey = geterateKey() + index;
     return (
       <div className="allUserCards-container" key={user.id} >
-        <Card user={user} allGrades={allGrades} eachKey={uKey}/>
+        <Card user={user} allGrades={allGrades} eachKey={uKey} getTag={getTag} setUserId={setUserId}/>
       </div>
     );
   })

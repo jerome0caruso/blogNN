@@ -25,10 +25,10 @@ h4 {
 }
 /* Main Search Input */
 
-.search-input {
+.search-input, .search-input-tag {
   position: fixed;
   display: block;
-  width: 58.2%;
+  width: 58.6%;
   border: none;
   border-radius: 8.4% 0 0 0;
   padding: 1rem;
@@ -37,19 +37,11 @@ h4 {
   outline: none;
 }
 .search-input-tag {
-  position: fixed;
-  display: block;
-  width: 58.2%;
-  border: none;
-  border-radius: 8.4% 0 0 0;
-  padding: 1rem;
-  border-bottom: 2px solid lightgray;
   margin: 3.1rem 0.4rem;
-  outline: none;
 }
 
 @media screen and (max-width: 1250px) {
-  .search-input {
+  .search-input, .search-input-tag {
     width: 56.8%;
   }
 }
@@ -160,7 +152,7 @@ h4 {
   background-color: #ddd;
   border: none;
   color: black;
-  padding: .6rem 0;
+  padding: .6rem .5rem;
   text-align: center;
   font-size: 1rem;
   text-decoration: none;
@@ -169,5 +161,5 @@ h4 {
   margin: .5rem .2rem;
   cursor: pointer;
   border-radius: 6px;
-  width: 3.5rem;
+  width: auto;
 }

@@ -3,7 +3,7 @@ import "./component.css";
 import SearchInput from './SearchInput';
 import Button from "./Button";
 
-const Card = ({ user, allGrades, eachKey }) => {
+const Card = ({ user, allGrades, eachKey, getTag, setUserId }) => {
   const [expanded, setExpanded] = useState(false);
   const [avg, setAvg] = useState(0);
   const [getLength, setGetLength] = useState('');
@@ -18,18 +18,21 @@ const Card = ({ user, allGrades, eachKey }) => {
   }
 
   const handleKeypress = (e) => {
+    setUserId(user.id)
     if (e.key === 'Enter' && getLength.length > 2) {
-      setButton((prevState) => {
-        return [...prevState, getLength]
-      } )
-      setGetLength('')
+      setButton(getLength)
+      
+      setGetLength('');
     }
   };
-  
+  useEffect(() => {
+    getTag(button)
+  },[button, setButton])
+
   const filterAllGrades = () => {
     return allGrades.map((grade, index) => {
       return (
-          <li className="eachTest">Test {index + 1}:<span className="eachGrade">{grade}%</span></li>
+          <li key ={eachKey + index.toString()} className="eachTest">Test {index + 1}:<span className="eachGrade">{grade}%</span></li>
       )
     })
   }
@@ -40,7 +43,6 @@ const Card = ({ user, allGrades, eachKey }) => {
     }
     averagesHandler(user.grades);
   }, [])
-
 
   return (
     <div className="card-container">
@@ -57,7 +59,7 @@ const Card = ({ user, allGrades, eachKey }) => {
         <h4>Average: {avg} </h4>
         <ul className="allGrades">{expanded ? filterAllGrades() : null}</ul>
         <div className="tags-container">
-        {button ? button.map((btn, index) => <Button key={eachKey + index.toString()} setValue={btn} />) : null}
+          {user.tag ? user.tag.map((btn, index) => btn.length > 0 ? <Button key={eachKey + index.toString()} setValue={btn} /> : null) : null}
         </div>
         <SearchInput  value={getLength} inputChangeHandler={inputChangeHandler} searchClass={"tag-input"} pl={"add a tag"} handleKeypress={handleKeypress}/>
       </div>
