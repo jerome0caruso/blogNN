@@ -7,6 +7,7 @@ import SearchInput from "./SearchInput";
 const GetApi = () => {
   const [getUsers, setGetUsers] = useState([]);
   const [input, setInput] = useState("");
+  
 
   useEffect(() => {
     const getUsers = async () => {
@@ -23,14 +24,16 @@ const GetApi = () => {
     setInput(e.target.value);
   };
 
+
   return (
     <div className="api-container">
-      <SearchInput inputChangeHandler={inputChangeHandler} />
+      <SearchInput inputChangeHandler={inputChangeHandler} searchClass={"search-input"} pl ={"Search by name"}/>
+      <SearchInput inputChangeHandler={inputChangeHandler} searchClass={"search-input-tag"} pl ={"Search by tag"}/>
       <AllUsersCard
         users={getUsers.filter((user) => {
           return (
             user.firstName.toLowerCase().includes(input.toLowerCase()) ||
-            user.lastName.toLowerCase().includes(input.toLowerCase())
+            user.lastName.toLowerCase().includes(input.toLowerCase()) 
           );
         })}
       />
